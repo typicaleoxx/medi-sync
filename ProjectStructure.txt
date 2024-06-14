@@ -1,0 +1,146 @@
+# Project: Hospital Management System
+
+## Authentication and Access Control App
+
+### Models
+
+#### User
+- username (CharField)
+- email (EmailField)
+- password (CharField)
+- role (CharField) # e.g., Manager, Doctor, Nurse, Receptionist
+
+#### Profile
+- user (OneToOneField, User)
+- first_name (CharField)
+- last_name (CharField)
+- phone_number (CharField)
+- address (TextField)
+
+### Functionality
+- User registration, login, logout
+- Role-based access control
+
+## Patient Management App
+
+### Models
+
+#### Patient
+- first_name (CharField)
+- last_name (CharField)
+- date_of_birth (DateField)
+- contact_info (TextField)
+- medical_history (TextField)
+
+#### Appointment
+- patient (ForeignKey, Patient)
+- doctor (ForeignKey, User, limit_choices_to={'role': 'Doctor'})
+- appointment_date (DateTimeField)
+- status (CharField) # e.g., Scheduled, Completed, Cancelled
+
+### Functionality
+- Register new patients
+- Search and filter patient records
+- Manage patient appointments and scheduling
+
+## Doctor and Staff Management App
+
+### Models
+
+#### Doctor
+- user (OneToOneField, User)
+- specialization (CharField)
+- availability (TextField)
+
+#### Staff
+- user (OneToOneField, User)
+- role (CharField) # e.g., Nurse, Receptionist
+- availability (TextField)
+
+### Functionality
+- Maintain records of doctors and staff members
+- Assign doctors to patients
+- Manage doctor and staff schedules
+- Allow staff to update profiles and availability
+
+## Medical Records Management App
+
+### Models
+
+#### MedicalRecord
+- patient (ForeignKey, Patient)
+- doctor (ForeignKey, User, limit_choices_to={'role': 'Doctor'})
+- record_date (DateTimeField)
+- description (TextField)
+- attachments (FileField, optional)
+
+### Functionality
+- Store and manage electronic health records (EHR)
+- Allow authorized personnel to view, update, and add medical records
+- Maintain audit trails
+
+## Billing and Payment App
+
+### Models
+
+#### Invoice
+- patient (ForeignKey, Patient)
+- amount (DecimalField)
+- date_issued (DateTimeField)
+- status (CharField) # e.g., Paid, Unpaid, Partially Paid
+
+#### Payment
+- invoice (ForeignKey, Invoice)
+- amount (DecimalField)
+- payment_date (DateTimeField)
+- payment_method (CharField) # e.g., Credit Card, Cash, Insurance
+
+### Functionality
+- Generate and manage invoices
+- Process payments
+
+## Inventory Management App
+
+### Models
+
+#### InventoryItem
+- name (CharField)
+- quantity (IntegerField)
+- category (CharField) # e.g., Medication, Equipment
+- expiry_date (DateField, optional)
+- unit_price (DecimalField)
+
+#### InventoryTransaction
+- item (ForeignKey, InventoryItem)
+- quantity (IntegerField)
+- transaction_type (CharField) # e.g., Addition, Consumption
+- date (DateTimeField)
+- related_invoice (ForeignKey, Invoice, optional)
+
+### Functionality
+- Maintain inventory records
+- Track usage and expenses
+
+## Reports and Analytics App
+
+### Functionality
+- Generate reports on patient demographics, appointments, revenue, and expenses
+- Provide advanced analytics and customizable reports
+
+## Emergency Management App
+
+### Models
+
+#### EmergencyCase
+- patient (ForeignKey, Patient)
+- description (TextField)
+- reported_at (DateTimeField)
+- status (CharField) # e.g., Open, Closed
+
+### Functionality
+- Handle emergency situations
+- Triage patients
+- Integrate with local emergency services
+
+## Project Structure
+- This markdown file outlines the structure and components of the Hospital Management System project, categorized into various applications handling different aspects of hospital operations.
